@@ -1,0 +1,7 @@
+{
+  "name": "mystrom-client",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
