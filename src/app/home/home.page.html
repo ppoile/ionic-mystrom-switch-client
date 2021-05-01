@@ -3,35 +3,35 @@
     <ion-title>myStrom WiFi Switch</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">myStrom WiFi Switch</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-list>
-    <ion-item>
-      <ion-label>Power</ion-label>
-      <ion-note slot="end" color="primary">{{ power | number : '1.1-1' }}</ion-note>
-    </ion-item>
-    <ion-item>
-      <ion-label>Ws</ion-label>
-      <ion-note slot="end" color="secondary">{{ ws | number : '1.1-1' }}</ion-note>
-    </ion-item>
-    <ion-item>
-      <ion-label>Relay</ion-label>
-      <ion-note slot="end" color="primary">{{ relay }}</ion-note>
-    </ion-item>
-    <ion-item>
-      <ion-label>Temperature</ion-label>
-      <ion-note slot="end" color="secondary">{{ temperature | number : '1.1-1' }}</ion-note>
-    </ion-item>
-  </ion-list>
-  <ion-button expand="block" (click)="onGetReport()">Report</ion-button>
-  <ion-button expand="block" (click)="onSwitchOn()">On</ion-button>
-  <ion-button expand="block" (click)="onSwitchOff()">Off</ion-button>
-  <ion-button expand="block" (click)="onToggle()">Toggle</ion-button>
-  <strong>Ready to create an app?</strong>
-  <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  <ion-content>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <ion-list>
+      <ion-item>
+        <ion-label>Power</ion-label>
+        <ion-note slot="end" color="primary">{{ power | number : '1.1-1' }}</ion-note>
+      </ion-item>
+      <ion-item>
+        <ion-label>Ws</ion-label>
+        <ion-note slot="end" color="secondary">{{ ws | number : '1.1-1' }}</ion-note>
+      </ion-item>
+      <ion-item>
+        <ion-label>Relay</ion-label>
+        <ion-note slot="end" color="primary">{{ relay }}</ion-note>
+      </ion-item>
+      <ion-item>
+        <ion-label>Temperature</ion-label>
+        <ion-note slot="end" color="secondary">{{ temperature | number : '1.1-1' }}</ion-note>
+      </ion-item>
+    </ion-list>
+    <ion-button expand="block" (click)="onGetReport()">Report</ion-button>
+    <ion-button expand="block" (click)="onSwitchOn()">On</ion-button>
+    <ion-button expand="block" (click)="onSwitchOff()">Off</ion-button>
+    <ion-button expand="block" (click)="onToggle()">Toggle</ion-button>
+    <strong>Ready to create an app?</strong>
+    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+
+  </ion-content>
 </ion-content>
