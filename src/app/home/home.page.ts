@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { timer } from 'rxjs';
 
 
 export class MyStromSwitchStatus {
@@ -17,6 +18,7 @@ export class MyStromSwitchStatus {
 })
 export class HomePage implements OnInit {
 
+  _auto_refresh_subscription;
   _mystrom_switch_backend_base_url = "http://192.168.0.60:5000/"
   switch_status: MyStromSwitchStatus = new MyStromSwitchStatus();
 
@@ -24,7 +26,7 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     console.log('mystrom-switch-backend-base-url:', this._mystrom_switch_backend_base_url);
-    this.onGetReport();
+    this.setupAutoRefresher();
   }
 
   public onGetReport(): void {
@@ -89,6 +91,14 @@ export class HomePage implements OnInit {
     setTimeout(() => {
       refresher.complete();
     }, 1);
+  }
+
+  private setupAutoRefresher() {
+    const source = timer(0, 60000);
+    this._auto_refresh_subscription = source.subscribe(val => {
+      console.log('auto refresh...');
+      this.onGetReport();
+    });
   }
 
   private updateRelayStatus(new_value: boolean): void {
