@@ -33,4 +33,6 @@ ionic build
 ionic cap sync
 ionic cap run android
 #AndroidStudio: Run 'app' Shift+F10
+
+ionic serve --external
 ```
