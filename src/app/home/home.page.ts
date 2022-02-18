@@ -19,7 +19,7 @@ export class MyStromSwitchStatus {
 export class HomePage implements OnInit {
 
   _auto_refresh_subscription;
-  _mystrom_switch_backend_base_url = "http://192.168.0.60:5000/"
+  _mystrom_switch_backend_base_url = 'http://192.168.0.30:5000/';
   switch_status: MyStromSwitchStatus = new MyStromSwitchStatus();
 
   constructor(private http: HttpClient) {}
