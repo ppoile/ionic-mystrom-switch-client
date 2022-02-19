@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { timer } from 'rxjs';
+import { timeout } from 'rxjs/operators';
 
 
 export class MyStromSwitchStatus {
@@ -21,6 +22,7 @@ export class HomePage implements OnInit {
   _auto_refresh_subscription;
   _mystrom_switch_backend_base_url = 'http://192.168.0.30:5000/';
   switch_status: MyStromSwitchStatus = new MyStromSwitchStatus();
+  error_message: string;
 
   constructor(private http: HttpClient) {}
 
@@ -30,10 +32,13 @@ export class HomePage implements OnInit {
   }
 
   public onGetReport(): void {
-    console.log("onGetReport()...");
-    this.http.get(this.getFullMyStromClientUrl('switch-status')).subscribe(
+    console.log('onGetReport()...');
+    const url = this.getFullMyStromClientUrl('switch-status');
+    const src = this.http.get(url).pipe(timeout(1000));
+    src.subscribe(
       response => {
         console.log('response:', response);
+        this.error_message = '';
         this.switch_status = {
           power: response['power'],
           ws: response['Ws'],
@@ -42,13 +47,18 @@ export class HomePage implements OnInit {
         };
       },
       (error) => {
-        console.log('error:', error.message);
+        console.log('error:', error);
+        this.error_message = error.message;
+        if (error.name === 'TimeoutError') {
+          this.error_message = `No response from ${url}`;
+        }
+        console.log('error_message:', this.error_message);
       },
     );
   }
 
   public onSwitchOn(): void {
-    console.log("onSwitchOn()...");
+    console.log('onSwitchOn()...');
     this.http.get(this.getFullMyStromClientUrl('switch-on')).subscribe(
       (response) => {
         this.updateRelayStatus(true);
@@ -60,7 +70,7 @@ export class HomePage implements OnInit {
   }
 
   public onSwitchOff(): void {
-    console.log("onSwitchOff()...");
+    console.log('onSwitchOff()...');
     this.http.get(this.getFullMyStromClientUrl('switch-off')).subscribe(
       (response) => {
         this.updateRelayStatus(false);
@@ -72,7 +82,7 @@ export class HomePage implements OnInit {
   }
 
   public onToggle(): void {
-    console.log("onToggle()...");
+    console.log('onToggle()...');
     this.http.get(this.getFullMyStromClientUrl('switch-toggle')).subscribe(
       (response) => {
         console.log(response);

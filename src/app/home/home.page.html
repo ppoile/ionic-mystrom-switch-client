@@ -8,7 +8,7 @@
     <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
-    <ion-list>
+    <ion-list *ngIf="!error_message">
       <ion-item>
         <ion-label>Power</ion-label>
         <ion-note slot="end" color="primary">{{ switch_status.power | number : '1.1-1' }}</ion-note>
@@ -26,9 +26,13 @@
         <ion-note slot="end" color="secondary">{{ switch_status.temperature | number : '1.1-1' }}</ion-note>
       </ion-item>
     </ion-list>
+    <ion-item *ngIf="error_message">
+      <ion-label>Error:</ion-label>
+      <ion-note slot="end" color="primary">{{ error_message }}</ion-note>
+    </ion-item>
     <ion-button expand="block" (click)="onGetReport()">Report</ion-button>
     <ion-button expand="block" (click)="onSwitchOn()">On</ion-button>
     <ion-button expand="block" (click)="onSwitchOff()">Off</ion-button>
     <ion-button expand="block" (click)="onToggle()">Toggle</ion-button>
-  </ion-content>
+</ion-content>
 </ion-content>
